@@ -1,22 +1,94 @@
-### Model Aplikasi E-commerce
 
-![ERD PLATINUM](https://user-images.githubusercontent.com/107734134/197455237-204a9764-d401-4166-9ae9-7e4959f7e723.png)
+[![node.js version](https://badgen.net/npm/node/express)](https://npmjs.com/package/express)
+[![GitHub latest commit](https://badgen.net/github/contributors/bimaagung/e-commerce-bingle-shop-platinum)](https://GitHub.com/bimaagung/e-commerce-bingle-shop-platinum/commit/)
 
+![ERD PLATINUM](https://raw.githubusercontent.com/bimaagung/e-commerce-bingle-shop-platinum/main/banner_bingle.jpg)
 
-Sesuai module / Bingle Shop
+<br>
 
-### Installation
+## 🛒 E-Commerce Bingle Shop Platinum
+
+> API E-Commerce App for provide team frontend for build e-commerce, and this project for final test at binar academy, improve hardskill and and softskill in teamwork  
+
+<br>
+
+## 🛠️ Installation Steps
 
 Installation project - manual
 
-- clone project `git clone https://github.com/bimaagung/maju-jaya-platinum-kelompok-1-BEJ.git`
-- add node modules `npm install`
-- rename file .env.example to .env
-- configuration db in file .env
-- create db `sequelize db:create`
-- migrate table `sequelize db:migrate`
-- fill the table with dummy data `sequelize db:seed:all`
-- run docker elk apm and customize .env
+clone project
+``` bson
+git clone https://github.com/bimaagung/maju-jaya-platinum-kelompok-1-BEJ.git
+```
+
+add node modules 
+```bson 
+npm install
+```
+
+rename file 
+```bson
+.env.example -> .env
+```
+
+configuration db in file .env
+
+create db 
+```bson
+sequelize db:create
+```
+migrate table 
+```bson
+sequelize db:migrate
+```
+fill the table with dummy data 
+```bson
+sequelize db:seed:all
+```
+
+run applicatiion
+```bson
+npm run start
+```
+
+
+
+Installation project - docker
+
+customize env in file docker-compose.yml -> platinum
+run docker compose in project
+``` bson
+docker-compose up -t
+```
+open terminal container platinum in docker app
+
+create db 
+```bson
+sequelize db:create
+```
+
+migrate table 
+```bson
+sequelize db:migrate
+```
+
+fill the table with dummy data 
+```bson
+sequelize db:migrate:all
+```
+
+open kibana in browser
+```bson
+localhost:5601
+```
+open app in browser
+```bson
+localhost:3000
+```
+
+<br>
+
+## 🚀 Demo
 
 test each endpoint in swagger
 
@@ -43,26 +115,61 @@ testing chat
 - add `sendMessage` in the input next to the send button
 - click send
 
-Installation project - docker
+<br>
 
-- customize env in file docker-compose.yml -> platinum
-- run docker compose in project
-- open terminal container platinum in docker app 
-- create db `sequelize db:create`
-- migrate table `sequelize db:migrate`
-- fill the table with dummy data `sequelize db:migrate:all`
-- open kibana `localhost:5601` in browser
-- open app `localhost:3000` in browser
+## 💻 Built with
 
+- Node JS
+- Express JS
+- Postgres
+- Sequelize
+- Socket IO
+- Nodemailer
+- Swagger
 
-### Entity
+<br>
 
-- User (Customer / Admin)
-- Item 
-- Order
-- OrderDetail
+## 📁 Project Structure
 
-## API Spec
+```
+	├───.github
+	│   └───workflows
+	├───config
+	├───controller
+	├───database
+	│   ├───migrations
+	│   └───seeders
+	├───docs
+	│   └───schema
+	│       ├───request
+	│       └───response
+	├───helper
+	├───internal
+	│   └───constant
+	├───libs
+	├───logs
+	├───middleware
+	├───models
+	├───public
+	├───repository
+	├───routes
+	├───test
+	│   ├───controller
+	│   ├───mock
+	│   └───usecase
+	├───usecase
+	└───views
+```
+
+<br>
+
+## 🔍 ERD
+
+![ERD PLATINUM](https://user-images.githubusercontent.com/107734134/197455237-204a9764-d401-4166-9ae9-7e4959f7e723.png)
+
+<br>
+
+## 📖 API Spec
 
 ### Customer
 
