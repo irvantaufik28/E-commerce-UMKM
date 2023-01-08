@@ -6,18 +6,33 @@ class ProductRepository {
     this.ProductModel = Product;
   }
 
-  async getAllProducts() {
-    return await this.ProductModel.findAll({
-      include: [
-        {
-          model: ProductImage,
-          attributes: ['id', 'url'],
-        },
-      ],
-      order: [
-        ['createdAt', 'DESC'],
-      ],
-    });
+  async getAllProducts(params, options) {
+    const filters = {};
+
+    if (params) {
+      const search = params.q;
+      if(search) {
+        filters[Op.or] = [
+          {
+            id: {
+              [Op.like]: `%${search}`,
+            },
+          },
+          {
+            name: {
+              [Op.like]: `%${search}`
+            }
+          }
+        ]
+      }
+    }
+    const results = await this.ProductModel.findAndCountAll({
+      where: filters,
+      ...options,
+      disticnt: true
+    })
+    return results;
+  
   }
 
   async getProductByID(id) {

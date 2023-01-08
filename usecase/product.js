@@ -5,7 +5,7 @@ class ProductUC {
     categoryRepository,
     productImageRepository,
     defaultImage,
-    _,
+    _
   ) {
     this.productRepository = productRepository;
     this.categoryRepository = categoryRepository;
@@ -14,18 +14,58 @@ class ProductUC {
     this._ = _;
   }
 
-  async getAllProducts(filters) {
+  async getAllProducts(params) {
     let result = {
       isSuccess: false,
       status: 404,
-      reason: '',
+      reason: "",
       data: [],
+      paginations: {},
     };
-    let getAllProducts = await this.productRepository.getAllProducts(filters);
+    const page = params.page || 1;
+    const limit = parseInt(params.limit || 10);
+
+    const offset = parseInt((page - 1) * limit);
+    const include = ["productImages"];
+    const orderBy = params.orderBy || "createdAt";
+    const orderDirection = params.orderDir || "DESC";
+
+    const order = [[orderBy, orderDirection]];
+    const products = await this.productRepository.getAllProducts(params, {
+      offset,
+      limit,
+      order,
+      include,
+    });
+
+    const start = 0 + (page - 1) * limit;
+    const end = page * limit;
+    const countFiltered = products.count;
+
+    result.paginations = {
+      totalRow: products.count,
+      totalPage: Math.ceil(countFiltered / limit),
+      page,
+      limit,
+    };
+
+    if (end < countFiltered) {
+      result.paginations.next = {
+        page: page + 1,
+      };
+    }
+
+    if (start > 0) {
+      result.paginations.prev = {
+        page: page - 1,
+      };
+    }
 
     result.isSuccess = true;
     result.status = 200;
-    result.data = getAllProducts;
+    result.data =products.rows
+    console.log(result.paginations)
+
     return result;
   }
 
@@ -33,7 +73,7 @@ class ProductUC {
     let result = {
       isSuccess: false,
       status: 404,
-      reason: '',
+      reason: "",
       data: [],
     };
     let product = await this.productRepository.getProductByKeyword(keyword);
@@ -47,13 +87,13 @@ class ProductUC {
     let result = {
       isSuccess: false,
       status: 404,
-      reason: '',
+      reason: "",
       data: null,
     };
 
     let getProductByID = await this.productRepository.getProductByID(id);
     if (getProductByID == null) {
-      result.reason = 'product not found';
+      result.reason = "product not found";
       return result;
     }
     result.isSuccess = true;
@@ -66,15 +106,15 @@ class ProductUC {
     let result = {
       isSuccess: false,
       status: 404,
-      reason: '',
+      reason: "",
       data: null,
     };
 
     let existCategory = await this.categoryRepository.getCategoryByID(
-      dataProduct.category_id,
+      dataProduct.category_id
     );
     if (existCategory === null) {
-      result.reason = 'failed to add, category not found';
+      result.reason = "failed to add, category not found";
       return result;
     }
 
@@ -86,7 +126,7 @@ class ProductUC {
       product_id: product.id,
     };
     let cover_image = await this.productImageRepository.createImage(
-      setImageAsCover,
+      setImageAsCover
     );
 
     const setCoverImageID = {
@@ -106,7 +146,7 @@ class ProductUC {
     let result = {
       isSuccess: false,
       status: 404,
-      reason: '',
+      reason: "",
       data: null,
     };
 
@@ -114,7 +154,7 @@ class ProductUC {
     let existProduct = await this.productRepository.getProductByID(id);
 
     if (existProduct === null) {
-      result.reason = 'product not found';
+      result.reason = "product not found";
       return result;
     }
     let updateProduct = await this.productRepository.updateProduct(product, id);
@@ -129,16 +169,16 @@ class ProductUC {
     let result = {
       isSuccess: false,
       statusCode: 404,
-      reason: '',
+      reason: "",
       data: null,
     };
     let product = await this.productRepository.getProductByID(id);
     if (product === null) {
-      result.reason = 'product not found';
+      result.reason = "product not found";
       return result;
     }
     let image = await this.productImageRepository.getAllImageByProductID(
-      product.id,
+      product.id
     );
     await this.deleteAllImageProduct(image);
 
